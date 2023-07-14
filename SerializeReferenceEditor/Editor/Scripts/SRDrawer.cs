@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace SerializeReferenceEditor.Editor 
 {
-	[CustomPropertyDrawer(typeof(SRAttribute), false)]
+	[CustomPropertyDrawer(typeof(SerializeReferenceEditorAttribute), false)]
 	public class SRDrawer : PropertyDrawer
 	{
-		private SRAttribute _srAttribute;
+		private SerializeReferenceEditorAttribute m_serializeReferenceEditorAttribute;
 		private SerializedProperty _array;
 		private Dictionary<SerializedProperty, int> _elementIndexes = new Dictionary<SerializedProperty, int>();
 	
@@ -23,7 +23,7 @@ namespace SerializeReferenceEditor.Editor
 				index = GetArrayIndex(property);
 			_elementIndexes[property] = index;
 
-			_srAttribute ??= attribute as SRAttribute;
+			m_serializeReferenceEditorAttribute ??= attribute as SerializeReferenceEditorAttribute;
 			var typeName = GetTypeName(property.managedReferenceFullTypename);
 			var typeNameContent = new GUIContent(typeName + (_array != null ? ("[" + index + "]") : ""));
 
@@ -55,10 +55,10 @@ namespace SerializeReferenceEditor.Editor
 		{
 			GenericMenu context = new GenericMenu();
 
-			if(_srAttribute.Types == null)
-				_srAttribute.SetTypeByName(property.managedReferenceFieldTypename);
+			if(m_serializeReferenceEditorAttribute.Types == null)
+				m_serializeReferenceEditorAttribute.SetTypeByName(property.managedReferenceFieldTypename);
 
-			var types = _srAttribute.Types;
+			var types = m_serializeReferenceEditorAttribute.Types;
 			if(types != null)
 			{
 				context.AddItem(
@@ -80,7 +80,7 @@ namespace SerializeReferenceEditor.Editor
 						new InstanceClassSRAction(
 								property,
 								_array,
-								_srAttribute,
+								m_serializeReferenceEditorAttribute,
 								types[i].Path)
 							.Apply);
 				}
@@ -134,9 +134,9 @@ namespace SerializeReferenceEditor.Editor
 				return "(empty)";
 
 			if (TypeByName(typeName)?
-				    .GetCustomAttributes(typeof(SRNameAttribute), false)
+				    .GetCustomAttributes(typeof(SerializeReferenceNameAttribute), false)
 				    .FirstOrDefault()
-			    is SRNameAttribute nameAttr)
+			    is SerializeReferenceNameAttribute nameAttr)
 				return nameAttr.Name;
 		
 			var index = typeName.LastIndexOf(' ');

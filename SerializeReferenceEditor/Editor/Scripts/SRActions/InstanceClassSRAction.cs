@@ -6,19 +6,19 @@ namespace SerializeReferenceEditor.Editor.SRActions
 {
     public class InstanceClassSRAction : BaseSRAction
     {
-        private readonly SRAttribute _srAttribute;
+        private readonly SerializeReferenceEditorAttribute m_serializeReferenceEditorAttribute;
         private readonly string _type;
 
-        public InstanceClassSRAction(SerializedProperty currentProperty, SerializedProperty parentProperty, SRAttribute srAttribute, string type)
+        public InstanceClassSRAction(SerializedProperty currentProperty, SerializedProperty parentProperty, SerializeReferenceEditorAttribute serializeReferenceEditorAttribute, string type)
             : base(currentProperty, parentProperty)
         {
-            _srAttribute = srAttribute;
+            m_serializeReferenceEditorAttribute = serializeReferenceEditorAttribute;
             _type = type;
         }
 
         protected override void DoApply()
         {
-            var typeInfo = _srAttribute.TypeInfoByPath(_type);
+            var typeInfo = m_serializeReferenceEditorAttribute.TypeInfoByPath(_type);
             if(typeInfo == null)
             {
                 Debug.LogErrorFormat("Type '{0}' not found.", _type);
@@ -29,7 +29,7 @@ namespace SerializeReferenceEditor.Editor.SRActions
             Undo.FlushUndoRecordObjects();
 
             var instance = Activator.CreateInstance(typeInfo.Type);
-            _srAttribute.OnCreate(instance);
+            m_serializeReferenceEditorAttribute.OnCreate(instance);
 
             Property.managedReferenceValue = instance;
             Property.serializedObject.ApplyModifiedProperties();

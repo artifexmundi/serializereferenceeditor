@@ -16,9 +16,9 @@ namespace SerializeReferenceEditor.Editor.MissingTypesValidator
     [Serializable]
     public class AssetChecker
     {
-        [SR, SerializeReference] 
+        [SerializeReferenceEditor, SerializeReference] 
         public IAssetsLoader AssetsLoaders;
-        [SR, SerializeReference] 
+        [SerializeReferenceEditor, SerializeReference] 
         public IAssetMissingTypeReport ReportType = new UnityLogAssetMissingTypeReport();
     }
 }

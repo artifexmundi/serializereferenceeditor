@@ -3,12 +3,12 @@
 namespace SerializeReferenceEditor
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class SRNameAttribute : Attribute
+    public class SerializeReferenceNameAttribute : Attribute
     {
         public readonly string FullName;
         public readonly string Name;
 
-        public SRNameAttribute(string fullName)
+        public SerializeReferenceNameAttribute(string fullName)
         {
             FullName = fullName;
             if (!fullName.Contains("/"))

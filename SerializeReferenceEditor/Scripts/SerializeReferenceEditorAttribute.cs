@@ -7,7 +7,7 @@ using UnityEngine;
 namespace SerializeReferenceEditor
 {
 	[AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
-	public class SRAttribute : PropertyAttribute
+	public class SerializeReferenceEditorAttribute : PropertyAttribute
 	{
 		private static Dictionary<Type, Type[]> _typeCache = new Dictionary<Type, Type[]>();
 
@@ -19,26 +19,26 @@ namespace SerializeReferenceEditor
 
 		public TypeInfo[] Types { get; private set; }
 
-		public SRAttribute()
+		public SerializeReferenceEditorAttribute()
 		{
 			Types = null;
 		}
 
-		public SRAttribute(Type baseType)
+		public SerializeReferenceEditorAttribute(Type baseType)
 		{
 			if(baseType == null)
 			{
-				Debug.LogError("[SRAttribute] Incorrect type.");
+				Debug.LogError("[SerializeReferenceEditorAttribute] Incorrect type.");
 			}
 
 			Types = GetTypeInfos(GetChildTypes(baseType));
 		}
 
-		public SRAttribute(params Type[] types)
+		public SerializeReferenceEditorAttribute(params Type[] types)
 		{
 			if(types == null || types.Length <= 0)
 			{
-				Debug.LogError("[SRAttribute] Incorrect types.");
+				Debug.LogError("[SerializeReferenceEditorAttribute] Incorrect types.");
 			}
 
 			Types = GetTypeInfos(types);
@@ -48,12 +48,12 @@ namespace SerializeReferenceEditor
 		{
 			if(string.IsNullOrEmpty(typeName))
 			{
-				Debug.LogError("[SRAttribute] Incorrect type name.");
+				Debug.LogError("[SerializeReferenceEditorAttribute] Incorrect type name.");
 			}
 			var type = GetTypeByName(typeName);
 			if(type == null)
 			{
-				Debug.LogError("[SRAttribute] Incorrect type.");
+				Debug.LogError("[SerializeReferenceEditorAttribute] Incorrect type.");
 			}
 
 			Types = GetTypeInfos(GetChildTypes(type));
@@ -73,8 +73,8 @@ namespace SerializeReferenceEditor
 			for(int i = 0; i < types.Length; ++i)
 			{
 				var typeName = types[i].FullName;
-				var nameAttribute = types[i].GetCustomAttributes(typeof(SRNameAttribute), false)
-					.Select(attr=> attr as SRNameAttribute)
+				var nameAttribute = types[i].GetCustomAttributes(typeof(SerializeReferenceNameAttribute), false)
+					.Select(attr=> attr as SerializeReferenceNameAttribute)
 					.FirstOrDefault();
 			
 				if (nameAttribute != null) 

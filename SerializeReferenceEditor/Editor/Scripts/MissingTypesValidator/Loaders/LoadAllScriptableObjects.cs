@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 namespace SerializeReferenceEditor.Editor.MissingTypesValidator.Loaders
 {
     [Serializable]
-    [SRName("Load all ScriptableObjects")]
+    [SerializeReferenceName("Load all ScriptableObjects")]
     public class LoadAllScriptableObjects : IAssetsLoader
     {
         public bool TryLoadAssetsForCheck(List<Object> assets)
